@@ -32,6 +32,7 @@ class BST:
             else:
                 return False
 
+        return False
 
     # this functions adds a node based on the principles of BST,
     # left nodes values are smaller than root node, vice versa
@@ -78,42 +79,42 @@ class BST:
         return elements
 
     # Using VLR to return an array of numbers/elements
-    def preOrderTraversal(self, node):
+    def preOrderTraversal(self):
         #Initialize empty array
         elements = []
 
         # First add the root node value
-        elements.append(node.data)
+        elements.append(self.data)
 
         # vist Left node, then recursively find for the furthest left leaf node,
         # then add in the array
-        if node.left:
-            elements += self.preOrderTraversal(node.left)
+        if self.left:
+            elements += self.left.preOrderTraversal()
 
         # vist right  node, then recursively find for the furthest left leaf node,
         # then add in the array
-        if node.right:
-            elements += self.preOrderTraversal(node.right)
+        if self.right:
+            elements += self.right.preOrderTraversal()
 
         return elements
 
     # Using LRV to return an array of numbers/elements
-    def postOrderTraversal(self, node):
+    def postOrderTraversal(self):
         #Initialize empty array
         elements = []
 
         # vist Left node, then recursively find for the furthest left leaf node,
         # then add in the array
-        if node.left:
-            elements += self.postOrderTraversal(node.left)
+        if self.left:
+            elements += self.left.postOrderTraversal()
 
         # vist right  node, then recursively find for the furthest left leaf node,
         # then add in the array
-        if node.right:
-            elements += self.postOrderTraversal(node.right)
+        if self.right:
+            elements += self.right.postOrderTraversal()
 
         # Lastly add the root node value
-        elements.append(node.data)
+        elements.append(self.data)
 
         return elements
 
@@ -132,6 +133,6 @@ if __name__ == "__main__":
     for i in range(1, len(numbers)):
         numbers_tree.addChild(root, numbers[i])
 
-    print(numbers_tree.postOrderTraversal(root))
+    print(numbers_tree.search(root, 18))
 
 
