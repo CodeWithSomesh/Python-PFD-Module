@@ -16,3 +16,13 @@ class Smartphone:
         return (f"Product Code: {self.productCode}, Brand: {self.brand}, Model: {self.model}, "
                 f"Selling Price: RM{self.sellingPrice}, Color: {self.color}, "
                 f"Quantity: {self.quantityOnHand}, Serial Number: {self.serialNumber}")
+
+    def updateDetails(self, newPhoneDetails):
+        self.productCode = newPhoneDetails.productCode
+        self.brand = newPhoneDetails.brand
+        self.model = newPhoneDetails.model
+        self.sellingPrice = newPhoneDetails.sellingPrice
+        self.color = newPhoneDetails.color
+        self.quantityOnHand = newPhoneDetails.quantityOnHand
+        self.serialNumber = newPhoneDetails.serialNumber
+        return self

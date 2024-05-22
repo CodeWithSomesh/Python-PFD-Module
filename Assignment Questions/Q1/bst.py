@@ -76,7 +76,7 @@ class BST:
 
     def modify(self, productCode, newPhoneDetails):
         existingPhone = self.search(productCode, self.root)
-        print(existingPhone)
-        existingPhone = newPhoneDetails
-        print(existingPhone)
-        return existingPhone
+        # print(existingPhone)
+        modifiedPhone = existingPhone.updateDetails(newPhoneDetails)
+        # print(modifiedPhone)
+        return modifiedPhone
