@@ -14,7 +14,7 @@ class Smartphone:
     # Particularly useful for debugging and logging
     def __str__(self):
         return (f"Product Code: {self.productCode}, Brand: {self.brand}, Model: {self.model}, "
-                f"Selling Price: RM{self.sellingPrice}, Color: {self.color}, "
+                f"Selling Price: RM{self.sellingPrice:.2f}, Color: {self.color}, "
                 f"Quantity: {self.quantityOnHand}, Serial Number: {self.serialNumber}")
 
     def updateDetails(self, newPhoneDetails):

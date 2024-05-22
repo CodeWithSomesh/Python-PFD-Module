@@ -68,7 +68,7 @@ def modifyPhoneDetails(bst):
     print("Enter new details (leave blank and press enter to keep existing value):")
     brand = input(f"Enter Brand ({existingPhone.brand}): ") or existingPhone.brand
     model = input(f"Enter Model ({existingPhone.model}): ") or existingPhone.model
-    sellingPrice = input(f"Enter Selling Price ({existingPhone.sellingPrice}): RM")
+    sellingPrice = input(f"Enter Selling Price (RM{existingPhone.sellingPrice:.2f}): RM")
     sellingPrice = float(sellingPrice) if sellingPrice else existingPhone.sellingPrice
     color = input(f"Enter Color ({existingPhone.color}): ") or existingPhone.color
     quantityOnHand = input(f"Enter Quantity ({existingPhone.quantityOnHand}): ")
@@ -90,7 +90,7 @@ def menu(bst):
         print("1. Create a new product")
         print("2. View all products")
         print("3. Search for a phone by product code")
-        print("4. Search for a phone by phone brand")
+        print("4. Search for phones by phone brand")
         print("5. Modify phone details")
         print("6. Exit")
         choice = input("\nEnter your choice: ")
@@ -117,7 +117,7 @@ def menu(bst):
             os.system('cls')
         elif choice == '4':
             os.system('cls')
-            print("Search for a phone by phone brand: ")
+            print("Search for phones by phone brand: ")
             searchPhonesByBrand(bst)
             print()
             os.system('pause')
@@ -130,7 +130,10 @@ def menu(bst):
             os.system('pause')
             os.system('cls')
         elif choice == '6':
-            print("Exiting the system. Have a goo day!")
+            os.system('cls')
+            print("Exiting the system. Have a good day!")
+            print()
+            os.system('pause')
             break
         else:
             print("Invalid choice. Please enter a number between 1 and 5.")
