@@ -12,7 +12,7 @@ class Product:
 
     def __str__(self):
         return (f"Product Code: {self.product_code}, Brand: {self.brand}, Model: {self.model}, "
-                f"Selling Price: ${self.selling_price}, Color: {self.color}, "
+                f"Selling Price: RM{self.selling_price}, Color: {self.color}, "
                 f"Quantity: {self.quantity}, Serial Number: {self.serial_number}")
 
 class BSTNode:
@@ -64,7 +64,7 @@ class BST:
             result.append(node.product)
             self.inorder_traversal(node.right, result)
 
-    def modify(self, product_code, new_product):
+    def modify(self, product_code, new_product): #There is some problem with this function
         node = self._search(self.root, product_code)
         if node:
             node.product = new_product
@@ -121,23 +121,20 @@ class StockManagementSystem:
         print("Enter new details (leave blank to keep current value):")
         brand = input(f"Enter Brand ({existing_product.brand}): ") or existing_product.brand
         model = input(f"Enter Model ({existing_product.model}): ") or existing_product.model
-        selling_price = input(f"Enter Selling Price ({existing_product.selling_price}): ")
+        selling_price = input(f"Enter Selling Price ({existing_product.selling_price}): RM")
         selling_price = float(selling_price) if selling_price else existing_product.selling_price
         color = input(f"Enter Color ({existing_product.color}): ") or existing_product.color
         quantity = input(f"Enter Quantity ({existing_product.quantity}): ")
         quantity = int(quantity) if quantity else existing_product.quantity
         serial_number = input(f"Enter Serial Number ({existing_product.serial_number}): ") or existing_product.serial_number
         new_product = Product(product_code, brand, model, selling_price, color, quantity, serial_number)
+        print(new_product)
         self.bst.modify(product_code, new_product)
         print("Product details updated successfully.")
 
-    def clear_screen(self):
-        command = 'cls' if os.name == 'nt' else 'clear'
-        os.system(command)
 
     def menu(self):
         while True:
-            self.clear_screen()
             print("\n1. Create a new product")
             print("2. View all products")
             print("3. Search for a product by brand")
@@ -158,6 +155,7 @@ class StockManagementSystem:
             else:
                 print("Invalid choice. Please enter a number between 1 and 5.")
                 input("Press Enter to continue...")
+
 
 if __name__ == "__main__":
     system = StockManagementSystem()
