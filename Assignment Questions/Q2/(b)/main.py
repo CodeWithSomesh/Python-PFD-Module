@@ -9,30 +9,40 @@ def generateRandomIC_Numbers():
 
 # My Hash Function
 def myHashFunction(icNumber, tableSize):
+    #Initialize Variables
+    icArray = []
     sumOfChar = 0
-    array1 = []
     totalSum = 0
-    hashCode = 0
     constantPrimeNumber = 7
+    hashCode = 0
+    hashValue = 0
 
+    # Firstly, seperating the IC Numbers into 4 parts by slicing
     part1 = int(icNumber[0:3])
     part2 = int(icNumber[3:6])
     part3 = int(icNumber[6:9])
     part4 = int(icNumber[9:12])
-    array1.append(part1)
-    array1.extend([part2, part3, part4])
+    icArray.append(part1)
+    icArray.extend([part2, part3, part4])
 
-    for elements in array1:
+    # Getting the index of all the numbers in the icArray
+    # Multiplying the ASCII Code of each number with the multiplication between the number and their index
+    for elements in icArray:
         for char in str(elements):
             index = str(elements).index(char)
             sumOfChar += ord(char) * (int(char) * index)
 
         totalSum += sumOfChar
 
-    # print(totalSum)
-    hashCode = (totalSum * constantPrimeNumber) % tableSize
+    # Finally get the Hash Code after multiplying a prime number
+    hashCode = (totalSum * constantPrimeNumber)
 
-    return hashCode
+    # After the modulus operation, we obtain the hash value, which identifies the specific bucket
+    # in the hash table where the data should be placed
+    hashValue = hashCode % tableSize
+
+
+    return hashValue
 
 
 # Given Hash Function
@@ -53,6 +63,7 @@ def insertInHashTable(hashTable, hashTableSize, icNumber, hashFunction):
     else:
         hashTable[indexNum].append(icNumber)
 
+# Display Hash Table Brackets that are Occupied only
 def displayHashTable(hashTable):
     num = 1
     print()
@@ -68,7 +79,7 @@ def displayHashTable(hashTable):
     print()
     print()
 
-
+# Display Hash Table Performance Results
 def displayPerformanceResults(hashTable):
     totalBucketsNum = 0
     emptyBucketNum = 0
@@ -146,6 +157,7 @@ def displayPerformanceResults(hashTable):
     print()
 
 
+# Display Hash Table Brackets that has Collisions
 def displayCollisions(hashTable):
     num = 1
     print()
@@ -161,12 +173,11 @@ def displayCollisions(hashTable):
     print()
     print()
 
+
 def main():
     # Initialize Variables
     totalIC_Numbers = 2000
     hashTableSize = 3001
-    customHashTable = []
-    givenHashTable = []
     icNumbersArray = []
 
     # Create 2 Hash Tables

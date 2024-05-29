@@ -1,3 +1,6 @@
+import os
+
+# Returns user input that has been completely validated
 def getNumInput(prompt):
     while True:
         userInput = input(prompt)
@@ -6,6 +9,7 @@ def getNumInput(prompt):
         else:
             print("Error: Invalid input. Please enter a valid integer.")
 
+# Returns user input that has been completely validated
 def getIcInput(prompt, iteration):
     icNumsArray = []
     num = 1
@@ -24,32 +28,42 @@ def getIcInput(prompt, iteration):
 
     return icNumsArray
 
-def hashFunction(icNumber, capacity):
+# My Hash Function with my Custom Folding Technique
+def hashFunction(icNumber, tableSize):
+    #Initialize Variables
+    icArray = []
     sumOfChar = 0
-    array1 = []
     totalSum = 0
-    hashCode = 0
     constantPrimeNumber = 7
+    hashCode = 0
+    hashValue = 0
 
+    # Firstly, seperating the IC Numbers into 4 parts by slicing
     part1 = int(icNumber[0:3])
     part2 = int(icNumber[3:6])
     part3 = int(icNumber[6:9])
     part4 = int(icNumber[9:12])
-    array1.append(part1)
-    array1.extend([part2, part3, part4])
+    icArray.append(part1)
+    icArray.extend([part2, part3, part4])
 
-    for elements in array1:
+    # Getting the index of all the numbers in the icArray
+    # Multiplying the ASCII Code of each number with the multiplication between the number and their index
+    for elements in icArray:
         for char in str(elements):
             index = str(elements).index(char)
             sumOfChar += ord(char) * (int(char) * index)
 
         totalSum += sumOfChar
 
-    print(totalSum)
-    hashCode = (totalSum * constantPrimeNumber) % capacity
+    # Finally get the Hash Code after multiplying a prime number
+    hashCode = (totalSum * constantPrimeNumber)
+
+    # After the modulus operation, we obtain the hash value, which identifies the specific bucket
+    # in the hash table where the data should be placed
+    hashValue = hashCode % tableSize
 
 
-    return hashCode
+    return hashValue
 
 
 
@@ -60,20 +74,26 @@ if __name__ == "__main__":
 
     numberPrompt = 'How many IC Numbers would you like to enter: '
     num = getNumInput(numberPrompt)
-    # print(num)
+
     icNumberPrompt = 'Enter your IC number without dashes (12 digits): '
     icNums = getIcInput(icNumberPrompt, num)
-    # for i in icNum:
-    #     print(i)
-    capacityPrompt = 'Enter Table Size: '
-    capacity = getNumInput(capacityPrompt)
+
+    tableSizePrompt = 'Enter Table Size: '
+    tableSize = getNumInput(tableSizePrompt)
 
     for icNum in icNums:
-        hashCode = hashFunction(icNum, capacity)
+        hashCode = hashFunction(icNum, tableSize)
         hashCodeArray.append(hashCode)
 
     for code in hashCodeArray:
         print(code)
+
+
+    print()
+    print()
+    os.system('pause')
+    os.system('cls')
+
 
     #123123123123
     #213213213213
@@ -81,3 +101,5 @@ if __name__ == "__main__":
     #321321321321
     #132132132132
     #312312312312
+
+

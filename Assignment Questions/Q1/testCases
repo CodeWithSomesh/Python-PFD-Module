@@ -1,0 +1,87 @@
+
+**************************** Test  Cases ****************************
+
+***** Menu *****
+1. Enter 0
+2. Enter 7 or larger number
+3. Enter symbols
+4. Enter empty
+
+
+***** All choices before adding product *****
+1. Press into all numbers and see everything working fine or not
+
+
+***** Choice 1 *****
+1.
+    Product Code = A15T
+    Brand = Apple
+    Model = iPhone15
+    Selling Price = abc
+    Selling Price = $#
+    Selling Price = RM4399
+    Number of Colors = 3
+    Colour 1 = Blue
+    Colour 2 = Pink
+    Colour 3 = Yellow
+    Quantity 1 = hii
+    Quantity 1 = ***
+    Quantity 1 = 15.77
+    Quantity 1 = 10
+    Quantity 2 = 15
+    Quantity 3 = 19
+
+2.
+    Product Code = A15X
+    Brand = Apple
+    Model = iPhone15 Pro Max
+    Selling Price = RM6499
+    Number of Colors = 2
+    Colour 1 = Natural
+    Colour 2 = White
+    Quantity 1 = 18
+    Quantity 2 = 16
+
+
+3.
+    Product Code = SG24
+    Brand = Samsung
+    Model = Galaxy S24
+    Selling Price = RM4599
+    Number of Colors = 2
+    Colour 1 = Blue
+    Colour 2 = Green
+    Quantity 1 = 10
+    Quantity 2 = 10
+
+
+***** Choice 2 *****
+1. Just look whether the details all correct
+
+
+***** Choice 3 *****
+1. Enter non-existent Product Code
+2. Enter existing Product Code, Just look whether the details all correct
+
+
+***** Choice 4 *****
+1. Enter non-existent Phone Brand
+2. Enter existing Phone Brand,Just look whether the details all correct
+
+
+***** Choice 5 *****
+1.
+    Product Code = A15X
+    Brand = Huawei
+    Model = Mate 60
+    Selling Price = RM1499
+    Modify = 1
+    Modify = @
+    Modify = y
+    Number of Colors = 2
+    Colour 1 = Green
+    Colour 2 = Red
+    Quantity 1 = 21
+    Quantity 2 = 99
+
+2. Select Choice 2 and check the updated details

@@ -34,12 +34,15 @@ class BST:
                 else:
                     self.addChild(phone, node.left)
             else:
-                return False # Add Print Statement print("Phone with this Product Code already exists.")
+                return False
 
-        # Using LVR to return an array of elements (phones)
+    # Using LVR to return an array of elements (phones)
     def inOrderTraversal(self, node):
         # Initialize empty array
         elements = []
+
+        if node is None:
+            return None
 
         # Vist Left node first, then recursively find for the furthest left leaf node,
         # then add in the array
@@ -61,6 +64,9 @@ class BST:
 
     def search(self, productCode, node):
 
+        if node is None:
+            return None
+
         if productCode == node.root.productCode:
             return node.root
         # If the current phone productCode is BIGGER than node's,
@@ -72,7 +78,7 @@ class BST:
         elif productCode < node.root.productCode:
             return self.search(productCode, node.left)
         else:
-            return False  # Add Print Statement
+            return None  # Add Print Statement
 
     def modify(self, productCode, newPhoneDetails):
         existingPhone = self.search(productCode, self.root)

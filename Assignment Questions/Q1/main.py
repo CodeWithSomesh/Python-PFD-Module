@@ -1,39 +1,96 @@
+import random
 import os
 from smartphone import Smartphone
 from bst import BST
 
-def addPhone(bst):
+def getFloatInput(prompt):
+    while True:
+        userInput = input(prompt)
+        try:
+            # Try to convert the input to a float
+            num = float(userInput)
+            return num
+        except ValueError:
+            # If conversion fails, it's not a valid number
+            print("Invalid input. Please enter a valid number.")
 
-    try:
-        productCode = (input("\nEnter Product Code: ")).upper()
-        brand = input("Enter Phone Brand: ")
-        model = input("Enter Phone Model: ")
-        sellingPrice = float(input("Enter Phone Selling Price: RM"))
-        color = input("Enter Phone Color: ")
-        quantityOnHand = int(input("Enter Quantity: "))
-        serialNumber = input("Enter Serial Number: ")
-        newPhone = Smartphone(productCode, brand, model, sellingPrice, color, quantityOnHand, serialNumber)
-        bst.addChild(newPhone, bst.root)
-        print("\nProduct added successfully.")
-        print("\nNew Product Details: ")
-        print(newPhone)
-    except ValueError as e:
-        print(f"Invalid input: {e}")
+
+def getIntInput(prompt):
+    while True:
+        userInput = input(prompt)
+        if userInput.isdigit():
+            return int(userInput)
+        else:
+            print("Invalid input. Please enter a valid integer number.")
+
+def getYesOrNoInput(prompt):
+    while True:
+        userInput = input(prompt).upper()
+        if userInput == 'Y' or userInput == 'YES':
+            return True
+        elif userInput == 'N' or userInput == 'NO':
+            return False
+        else:
+            print("Invalid input. Please enter 'Yes' or 'No' only.")
+
+
+def addPhone(bst):
+    colorArray = []
+    quantityArray = []
+
+
+    productCode = (input("\nEnter Product Code: ")).upper()
+    allPhones = bst.inOrderTraversal(bst.root)
+    if allPhones is not None:
+        for phones in allPhones:
+            if productCode == phones.productCode:
+                print("\nThere is already a phone under this Product Code.")
+                print("Select 1 in the Menu to add a new phone with a different Product Code.")
+                print("Select 5 in the Menu to modify the details of the phone with this Product Code.")
+                return
+
+
+    serialNumber = ''.join(random.choices('0123456789abcde', k=20))
+    brand = input("Enter Phone Brand: ")
+    model = input("Enter Phone Model: ")
+    sellingPrice = getFloatInput("Enter Phone Selling Price: RM")
+
+    numberOfColors = getIntInput("Enter Number of Colorways Available: ")
+    for i in range(numberOfColors):
+        color = input(f"Enter Phone Color {i+1}: ")
+        quantityOnHand = getIntInput(f"Enter Quantity of Phone Color {i+1}: ")
+        quantityOnHand = str(quantityOnHand)
+        colorArray.append(color)
+        quantityArray.append(quantityOnHand)
+
+    newPhone = Smartphone(productCode, brand, model, sellingPrice, colorArray, quantityArray, serialNumber)
+    bst.addChild(newPhone, bst.root)
+    print("\nProduct added successfully.")
+    print("\nNew Product Details: ")
+    print(newPhone)
+
 
 def viewAllPhones(bst):
-
-    allPhones = bst.inOrderTraversal(bst.root)
+    num = 1
+    allPhones = bst.inOrderTraversal(bst.root) # Displaying starting from the smallest Product Code
     if allPhones is None:
         print("\nThere aren't any products added in the system")
     else:
         for phones in allPhones:
-            print(f"\n{phones}")
+            print(f"\n********** Product {num} ********** ")
+            print(f"{phones}")
+            num += 1
 
 def searchPhoneByProductCode(bst):
+    allPhones = bst.inOrderTraversal(bst.root)
+    if allPhones is None:
+        print("\nThere aren't any products added in the system")
+        return
+
     productCode = (input("\nEnter Product Code to search: ")).upper()
     foundPhone = bst.search(productCode, bst.root)
-    # print(foundPhone)
     print()
+
     if foundPhone:
         print(foundPhone)
     else:
@@ -41,6 +98,13 @@ def searchPhoneByProductCode(bst):
 
 def searchPhonesByBrand(bst):
     foundPhones = []
+    num = 1
+
+    allPhones = bst.inOrderTraversal(bst.root)
+    if allPhones is None:
+        print("\nThere aren't any products added in the system")
+        return
+
     brand = input("\nEnter Phone Brand to search: ")
     allPhones = bst.inOrderTraversal(bst.root)
 
@@ -53,29 +117,52 @@ def searchPhonesByBrand(bst):
         print("No phones found for the given Phone Brand.")
     else:
         for phones in foundPhones:
-            print(phones)
+            print(f"\n********** Product {num} ********** ")
+            print(f"{phones}")
+            num += 1
 
 def modifyPhoneDetails(bst):
+    colorArray = []
+    quantityArray = []
+
+
+    allPhones = bst.inOrderTraversal(bst.root)
+    if allPhones is None:
+        print("\nThere aren't any products added in the system")
+        return
+
+
     productCode = (input("\nEnter Product Code to modify: ")).upper()
     existingPhone = bst.search(productCode, bst.root)
     print()
+
     if not existingPhone:
         print("Product not found.")
         return
+
     print("Current phone details:")
     print(existingPhone)
     print()
+
     print("Enter new details (leave blank and press enter to keep existing value):")
+    serialNumber = existingPhone.serialNumber
     brand = input(f"Enter Brand ({existingPhone.brand}): ") or existingPhone.brand
     model = input(f"Enter Model ({existingPhone.model}): ") or existingPhone.model
-    sellingPrice = input(f"Enter Selling Price (RM{existingPhone.sellingPrice:.2f}): RM")
+    sellingPrice = getFloatInput(f"Enter Selling Price (RM{existingPhone.sellingPrice:.2f}): RM")
     sellingPrice = float(sellingPrice) if sellingPrice else existingPhone.sellingPrice
-    color = input(f"Enter Color ({existingPhone.color}): ") or existingPhone.color
-    quantityOnHand = input(f"Enter Quantity ({existingPhone.quantityOnHand}): ")
-    quantityOnHand = int(quantityOnHand) if quantityOnHand else existingPhone.quantityOnHand
-    serialNumber = input(f"Enter Serial Number ({existingPhone.serialNumber}): ") or existingPhone.serialNumber
-    newPhoneDetails = Smartphone(productCode, brand, model, sellingPrice, color, quantityOnHand, serialNumber)
-    # print(newPhoneDetails)
+    askToModify = getYesOrNoInput("Do you want to modify the Phone Color and Quantity? (Yes/No): ")
+
+    if askToModify:
+        numberOfColors = getIntInput("Enter Number of Colorways Available: ")
+        for i in range(numberOfColors):
+            color = input(f"Enter Phone Color {i + 1}: ")
+            quantityOnHand = getIntInput(f"Enter Quantity of Phone Color {i + 1}: ")
+            quantityOnHand = str(quantityOnHand)
+            colorArray.append(color)
+            quantityArray.append(quantityOnHand)
+
+
+    newPhoneDetails = Smartphone(productCode, brand, model, sellingPrice, colorArray, quantityArray, serialNumber)
     modifiedPhone = bst.modify(productCode, newPhoneDetails)
     print("\nProduct details updated successfully.")
     print("\nNewly modified phone details:")
@@ -136,9 +223,8 @@ def menu(bst):
             os.system('pause')
             break
         else:
-            print("Invalid choice. Please enter a number between 1 and 5.")
-            input("Press Enter to continue...")
-            # Clearing the Screen
+            print("Invalid choice. Please enter a number between 1 and 6.")
+            os.system('pause')
             os.system('cls')
 
 def main():
