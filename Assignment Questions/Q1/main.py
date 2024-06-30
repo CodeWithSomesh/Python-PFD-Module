@@ -3,13 +3,14 @@ import os
 from smartphone import Smartphone
 from bst import BST
 
-def getFloatInput(prompt):
+def getFloatInput(prompt, existingPhone=None):
     while True:
-        userInput = input(prompt)
+        userInput = input(prompt) or existingPhone.sellingPrice
         try:
             # Try to convert the input to a float
             num = float(userInput)
             return num
+
         except ValueError:
             # If conversion fails, it's not a valid number
             print("Invalid input. Please enter a valid number.")
@@ -50,7 +51,7 @@ def addPhone(bst):
                 return
 
 
-    serialNumber = ''.join(random.choices('0123456789abcde', k=20))
+    serialNumber = input("Enter Serial Number: ")
     brand = input("Enter Phone Brand: ")
     model = input("Enter Phone Model: ")
     sellingPrice = getFloatInput("Enter Phone Selling Price: RM")
@@ -144,12 +145,12 @@ def modifyPhoneDetails(bst):
     print(existingPhone)
     print()
 
-    print("Enter new details (leave blank and press enter to keep existing value):")
-    serialNumber = existingPhone.serialNumber
+    print("Enter new details (Leave blank and Press Enter to keep existing value):")
+    serialNumber = input(f"Enter Serial Number ({existingPhone.serialNumber}): ") or existingPhone.serialNumber
     brand = input(f"Enter Brand ({existingPhone.brand}): ") or existingPhone.brand
     model = input(f"Enter Model ({existingPhone.model}): ") or existingPhone.model
-    sellingPrice = getFloatInput(f"Enter Selling Price (RM{existingPhone.sellingPrice:.2f}): RM")
-    sellingPrice = float(sellingPrice) if sellingPrice else existingPhone.sellingPrice
+    sellingPrice = getFloatInput(f"Enter Selling Price (RM{existingPhone.sellingPrice:.2f}): RM", existingPhone)
+    # sellingPrice = float(sellingPrice) if sellingPrice else existingPhone.sellingPrice  # Need make changes
     askToModify = getYesOrNoInput("Do you want to modify the Phone Color and Quantity? (Yes/No): ")
 
     if askToModify:
@@ -160,6 +161,10 @@ def modifyPhoneDetails(bst):
             quantityOnHand = str(quantityOnHand)
             colorArray.append(color)
             quantityArray.append(quantityOnHand)
+    else:
+        colorArray = existingPhone.colorArray
+        quantityArray = existingPhone.quantityOnHandArray
+
 
 
     newPhoneDetails = Smartphone(productCode, brand, model, sellingPrice, colorArray, quantityArray, serialNumber)
