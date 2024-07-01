@@ -75,7 +75,7 @@ if __name__ == "__main__":
     numberPrompt = 'How many IC Numbers would you like to enter: '
     num = getNumInput(numberPrompt)
 
-    icNumberPrompt = 'Enter your IC number without dashes (12 digits): '
+    icNumberPrompt = f'Enter IC number without dashes (12 digits): '
     icNums = getIcInput(icNumberPrompt, num)
 
     tableSizePrompt = 'Enter Table Size: '
@@ -86,7 +86,7 @@ if __name__ == "__main__":
         hashCodeArray.append(hashCode)
 
     for code in hashCodeArray:
-        print(code)
+        print(f"Bucket {code} is filled")
 
 
     print()

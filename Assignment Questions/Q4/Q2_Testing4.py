@@ -2,6 +2,7 @@ import random
 import datetime
 import os
 import math
+from tabulate import tabulate
 
 # Generate Random IC Numbers
 def generateRandomIC_Numbers():
@@ -152,25 +153,7 @@ def displayPerformanceResults(hashTable):
     collisionRate = (bucketsWithCollision / totalBucketsNum) * 100
     collisionRate = math.ceil(collisionRate * 100) / 100
 
-    print()
-    print(f"Total Buckets: {totalBucketsNum}")
-    print(f"Empty Buckets: {emptyBucketNum}")
-    print(f"Occupied Buckets: {occupiedBucketNum}")
-    print(f"Buckets with 1 key: {bucket_with_1_key}")
-    print(f"Buckets with 2 keys: {bucket_with_2_keys}")
-    print(f"Buckets with 3 keys: {bucket_with_3_keys}")
-    print(f"Buckets with 4 keys: {bucket_with_4_keys}")
-    print(f"Buckets with 5 keys: {bucket_with_5_keys}")
-    print(f"Buckets with 6 keys: {bucket_with_6_keys}")
-    print(f"Buckets with 7 keys: {bucket_with_7_keys}")
-    print(f"Buckets with 8 keys: {bucket_with_8_keys}")
-    print(f"Buckets with 9 keys: {bucket_with_9_keys}")
-    print(f"Buckets with 10 keys: {bucket_with_10_keys}")
-    print(f"Total Number of Collisions: {numOfCollisions}")
-    print(f"Number of Buckets with Collisions: {bucketsWithCollision}")
-    print(f"Collision Rate: {collisionRate:.2f}%")
-    print()
-    print()
+    return numOfCollisions
 
 
 # Display Hash Table Brackets that has Collisions
@@ -189,8 +172,7 @@ def displayCollisions(hashTable):
     print()
     print()
 
-
-def main():
+def experiment():
     # Initialize Variables
     totalIC_Numbers = 2000
     hashTableSize = 3001
@@ -199,7 +181,6 @@ def main():
     # Create 2 Hash Tables
     myHashTable = createHashTable(hashTableSize)
     givenHashTable = createHashTable(hashTableSize)
-
 
     # Generate Random IC Numbers and store it in an Array
     for i in range(totalIC_Numbers):
@@ -217,36 +198,58 @@ def main():
         insertInHashTable(givenHashTable, hashTableSize, icNum, givenHashFunction)
 
 
-    # Display My Hash Table Details
-    print("<------------------------ My Hash Table Performance ------------------------>")
-    displayPerformanceResults(myHashTable)
+    return myHashTable, givenHashTable
 
-    print("<------------------------ My Hash Table Results ------------------------>")
-    displayHashTable(myHashTable)
+def main():
+    myHashTable = []
+    givenHashTable = []
+    totalExperiments = 10
+    totalIC_NumbersInsertions = 2000
+    tableData = []
 
-    print("<------------------------ My Hash Table Collisions ------------------------>")
-    displayCollisions(myHashTable)
+    for i in range(totalExperiments):
+        myHashTable, givenHashTable = experiment()
 
-    print("<------------------------ My Hash Table Performance ------------------------>")
-    displayPerformanceResults(myHashTable)
+        myHashTableNumOfCollisions = displayPerformanceResults(myHashTable)
+        givenHashTableNumOfCollisions = displayPerformanceResults(givenHashTable)
 
-    os.system('pause')
-    os.system('cls')
+        myHashTableCollisionRate = (myHashTableNumOfCollisions / totalIC_NumbersInsertions) * 100
+        myHashTableCollisionRate = math.ceil(myHashTableCollisionRate * 100) / 100
+
+        givenHashTableCollisionRate = (givenHashTableNumOfCollisions / totalIC_NumbersInsertions) * 100
+        givenHashTableCollisionRate = math.ceil(givenHashTableCollisionRate * 100) / 100
+
+        tableData.append([i + 1, myHashTableNumOfCollisions, myHashTableCollisionRate,
+                          givenHashTableNumOfCollisions, givenHashTableCollisionRate])
 
 
+    # Calculate totals and averages
+    myHashTableTotalNumberOfCollision = sum(row[1] for row in tableData)
+    myHashTableTotalCollisionRate = sum(row[2] for row in tableData)
 
-    # Display Given Hash Table Details
-    print("<------------------------ Given Hash Table Performance ------------------------>")
-    displayPerformanceResults(givenHashTable)
+    givenHashTableTotalNumberOfCollision = sum(row[3] for row in tableData)
+    givenHashTableTotalCollisionRate = sum(row[4] for row in tableData)
 
-    print("<------------------------ Given Hash Table Results ------------------------>")
-    displayHashTable(givenHashTable)
+    myHashTableAverageNumberOfCollisions = myHashTableTotalNumberOfCollision / len(tableData)
+    myHashTableAverageCollisionRate = myHashTableTotalCollisionRate / len(tableData)
 
-    print("<------------------------ Given Hash Table Collisions ------------------------>")
-    displayCollisions(givenHashTable)
+    givenHashTableAverageNumberOfCollisions = givenHashTableTotalNumberOfCollision / len(tableData)
+    givenHashTableAverageCollisionRate = givenHashTableTotalCollisionRate / len(tableData)
 
-    print("<------------------------ Given Hash Table Performance ------------------------>")
-    displayPerformanceResults(givenHashTable)
+    # Append totals and averages to the data
+    tableData.append(['Total', myHashTableTotalNumberOfCollision, myHashTableTotalCollisionRate,
+                      givenHashTableTotalNumberOfCollision, givenHashTableTotalCollisionRate])
+    tableData.append(['Average', myHashTableAverageNumberOfCollisions, myHashTableAverageCollisionRate,
+                      givenHashTableAverageNumberOfCollisions, givenHashTableAverageCollisionRate])
+
+    # Define headersIa
+    headers = ['Experiment', 'Number Of Collisions in My Hash Table', 'Collision Rate in My Hash Table (%)',
+               'Number Of Collisions in Given Hash Table', 'Collision Rate in Given Hash Table (%)']
+
+    # Print the table
+    print(tabulate(tableData, headers=headers, tablefmt='grid', stralign='center', numalign="center"))
+
+
 
 
 
