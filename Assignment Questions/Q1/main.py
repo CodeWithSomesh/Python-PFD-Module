@@ -78,7 +78,7 @@ def viewAllPhones(bst):
         print("\nThere aren't any products added in the system")
     else:
         for phones in allPhones:
-            print(f"\n********** Product {num} ********** ")
+            print(f"\n******************** Product {num} ******************** ")
             print(f"{phones}")
             num += 1
 
@@ -87,6 +87,8 @@ def searchPhoneByProductCode(bst):
     if allPhones is None:
         print("\nThere aren't any products added in the system")
         return
+
+    displayAvailableProductCodes(bst)
 
     productCode = (input("\nEnter Product Code to search: ")).upper()
     foundPhone = bst.search(productCode, bst.root)
@@ -106,6 +108,8 @@ def searchPhonesByBrand(bst):
         print("\nThere aren't any products added in the system")
         return
 
+    displayAvailableProductBrands(bst)
+
     brand = input("\nEnter Phone Brand to search: ")
     allPhones = bst.inOrderTraversal(bst.root)
 
@@ -118,7 +122,7 @@ def searchPhonesByBrand(bst):
         print("No phones found for the given Phone Brand.")
     else:
         for phones in foundPhones:
-            print(f"\n********** Product {num} ********** ")
+            print(f"\n******************** Product {num} ******************** ")
             print(f"{phones}")
             num += 1
 
@@ -132,6 +136,7 @@ def modifyPhoneDetails(bst):
         print("\nThere aren't any products added in the system")
         return
 
+    displayAvailableProductCodes(bst)
 
     productCode = (input("\nEnter Product Code to modify: ")).upper()
     existingPhone = bst.search(productCode, bst.root)
@@ -174,6 +179,34 @@ def modifyPhoneDetails(bst):
     print(modifiedPhone)
 
 
+def displayAvailableProductCodes(bst):
+    num = 1
+    allPhones = bst.inOrderTraversal(bst.root)  # Displaying starting from the smallest Product Code
+    if allPhones is None:
+        print("\nThere aren't any products added in the system")
+    else:
+        print(f"\n******************** Available Product Codes In The System ********************* ")
+
+        for phones in allPhones:
+            print(f"{num}. {phones.productCode}")
+            num += 1
+
+        print("*" * 80)
+
+
+def displayAvailableProductBrands(bst):
+    num = 1
+    allPhones = bst.inOrderTraversal(bst.root)  # Displaying starting from the smallest Product Code
+    if allPhones is None:
+        print("\nThere aren't any products added in the system")
+    else:
+        print(f"\n******************** Available Phone Brands In The System ********************* ")
+
+        for phones in allPhones:
+            print(f"{num}. {phones.brand}")
+            num += 1
+
+        print("*" * 80)
 
 def menu(bst):
     while True:

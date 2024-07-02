@@ -43,6 +43,8 @@ def calculateMonthlyMortgage(customerName, principalAmount, yearlyInterestRate, 
 
 
     monthlyMortgage = formulaUpperPart/formulaLowerPart # Calculate monthly mortgage using the complete formula
+
+    # Creating an object for results with customer details
     results[customerName] = {
         "principalAmount": principalAmount,
         "yearlyInterestRate": yearlyInterestRate,
